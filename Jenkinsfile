@@ -19,10 +19,11 @@ stages {
       scannerHome = tool 'vlx2-sonar-scanner'
     }
     steps {
-    withSonarQubeEnv('vlx2-sonarqube-server')
+    withSonarQubeEnv('vlx2-sonarqube-server'){
       sh "${scannerHome}/bin/sonar-scanner"
     }
 
     }
     }
+}
 }
