@@ -1,6 +1,6 @@
 def registry = 'https://vlx05.jfrog.io'
 def imageName = 'vlx05.jfrog.io/vlx2-docker-local/ttrend'
-def version   = ${env.BUILD_ID}
+def version   = "${env.BUILD_ID}"
 
 pipeline {   
    agent any
@@ -79,7 +79,7 @@ stages {
       steps {
         script {
            echo '<--------------- Docker Build Started --------------->'
-           app = docker.build("${imageName}:${version}", "--build-arg version=${env.BUILD_ID} .")
+           app = docker.build(imageName":"version, "--build-arg version=${env.BUILD_ID} .")
            echo '<--------------- Docker Build Ends --------------->'
         }
       }
