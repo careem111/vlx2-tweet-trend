@@ -79,7 +79,7 @@ stages {
       steps {
         script {
            echo '<--------------- Docker Build Started --------------->'
-           app = docker.build(imageName+":"+version, "--build-arg VERSION=${mavenPom.version} .")
+           app = docker.build(imageName+":"+mavenPom.version, "--build-arg VERSION=${mavenPom.version} .")
            echo '<--------------- Docker Build Ends --------------->'
         }
       }
