@@ -79,7 +79,6 @@ stages {
       steps {
         script {
            echo '<--------------- Docker Build Started --------------->'
-           echo "${env.BUILD_ID}"
            app = docker.build(imageName+":"+version, "--build-arg VERSION=${mavenPom.version} .")
            echo '<--------------- Docker Build Ends --------------->'
         }
