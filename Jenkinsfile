@@ -1,4 +1,7 @@
 def registry = 'https://vlx05.jfrog.io'
+def imageName = 'vlx05.jfrog.io/vlx2-docker-local/ttrend'
+def version   = ${env.BUILD_ID}
+
 pipeline {   
    agent any
    tools {
@@ -72,8 +75,6 @@ stages {
         }   
     }
   
-  def imageName = 'valaxy01.jfrog.io/valaxy-docker/ttrend'
-  def version   = ${env.BUILD_ID}
     stage(" Docker Build ") {
       steps {
         script {
