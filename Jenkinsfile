@@ -77,8 +77,9 @@ stages {
   
     stage(" Docker Build ") {
       steps {
-        def mavenPom = readMavenPom 'pom.xml'
+        
         script {
+          def mavenPom = readMavenPom 'pom.xml'
            echo '<--------------- Docker Build Started --------------->'
            app = docker.build(imageName+":"+mavenPom.version, "--build-arg VERSION=${mavenPom.version} .")
            echo '<--------------- Docker Build Ends --------------->'
