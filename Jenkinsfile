@@ -1,7 +1,7 @@
 def registry = 'https://vlx05.jfrog.io'
 def imageName = 'vlx05.jfrog.io/vlx2-docker-local/ttrend'
 def version   = "${env.BUILD_ID}"
-def mavenPom = readMavenPom 'pom.xml'
+
 pipeline {   
    agent any
    tools {
@@ -77,6 +77,7 @@ stages {
   
     stage(" Docker Build ") {
       steps {
+        def mavenPom = readMavenPom 'pom.xml'
         script {
            echo '<--------------- Docker Build Started --------------->'
            app = docker.build(imageName+":"+mavenPom.version, "--build-arg VERSION=${mavenPom.version} .")
