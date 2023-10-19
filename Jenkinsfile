@@ -79,7 +79,7 @@ stages {
       steps {
         script {
            echo '<--------------- Docker Build Started --------------->'
-           app = docker.build(imageName+":"+version, "--build-arg version=${env.BUILD_ID} -f Dockerfile .")
+           app = docker.build("${imageName}:${version}", "--build-arg version=${env.BUILD_ID} .")
            echo '<--------------- Docker Build Ends --------------->'
         }
       }
