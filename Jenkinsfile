@@ -38,7 +38,7 @@ stages {
   stage("Quality Gate"){
     steps{
       script{
-        timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
+        timeout(time: 0.1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
           def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
           if (qg.status != 'OK') {
             error "Pipeline aborted due to quality gate failure: ${qg.status}"
@@ -75,26 +75,26 @@ stages {
         }   
     }
   
-    // stage(" Docker Build ") {
-    //   steps {
-    //     script {
-    //        echo '<--------------- Docker Build Started --------------->'
-    //        app = docker.build(imageName+":"+version, "--build-arg version=${env.BUILD_ID} .")
-    //        echo '<--------------- Docker Build Ends --------------->'
-    //     }
-    //   }
-    // }
+    stage(" Docker Build ") {
+      steps {
+        script {
+           echo '<--------------- Docker Build Started --------------->'
+           app = docker.build(imageName+":"+version, "--build-arg version=${env.BUILD_ID} .")
+           echo '<--------------- Docker Build Ends --------------->'
+        }
+      }
+    }
 
-    // stage (" Docker Publish "){
-    //   steps {
-    //       script {
-    //           echo '<--------------- Docker Publish Started --------------->'  
-    //           docker.withRegistry(registry, 'artifact-cred'){
-    //               app.push()
-    //           }    
-    //           echo '<--------------- Docker Publish Ended --------------->'  
-    //         }
-    //     }
-    //   }
+    stage (" Docker Publish "){
+      steps {
+          script {
+              echo '<--------------- Docker Publish Started --------------->'  
+              docker.withRegistry(registry, 'artifact-cred'){
+                  app.push()
+              }    
+              echo '<--------------- Docker Publish Ended --------------->'  
+            }
+        }
+      }
     }
   }
