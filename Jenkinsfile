@@ -51,6 +51,7 @@ stages {
                 def server = Artifactory.newServer url:registry+"/artifactory" ,  credentialsId:"artifact-cred"
                 def properties = "buildid=${env.BUILD_ID},commitid=${env.GIT_COMMIT}"; 
                 // BUILD_ID, GIT_COMMIT are default jenkins env
+                // BUILD_ID read from pom.xml
                 def uploadSpec = """{
                     "files": [
                       {
@@ -69,6 +70,30 @@ stages {
       
       }
         }   
-    }   
+    }
+  
+  def imageName = 'valaxy01.jfrog.io/valaxy-docker/ttrend'
+  def version   = ${env.BUILD_ID}
+    stage(" Docker Build ") {
+      steps {
+        script {
+           echo '<--------------- Docker Build Started --------------->'
+           app = docker.build(imageName+":"+version) --build-arg version=${env.BUILD_ID}
+           echo '<--------------- Docker Build Ends --------------->'
+        }
+      }
+    }
+
+    stage (" Docker Publish "){
+      steps {
+          script {
+              echo '<--------------- Docker Publish Started --------------->'  
+              docker.withRegistry(registry, 'artifact-cred'){
+                  app.push()
+              }    
+              echo '<--------------- Docker Publish Ended --------------->'  
+            }
+        }
+      }
     }
   }

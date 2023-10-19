@@ -1,3 +1,7 @@
 FROM openjdk:8
-ADD jarstaging/com/valaxy/demo-workshop/2.1.4/demo-workshop-2.1.4.jar ttrend.jar 
+
+ARG VERSION
+ENV version=$VERSION
+
+ADD jarstaging/com/valaxy/demo-workshop/${version}/demo-workshop-${version}.jar ttrend.jar 
 ENTRYPOINT [ "java", "-jar", "ttrend.jar" ]
