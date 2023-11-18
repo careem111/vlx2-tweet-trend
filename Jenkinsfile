@@ -2,6 +2,7 @@ def registry = 'https://vlx.jfrog.io'
 def imageName = 'vlx.jfrog.io/vlx2-docker-local/ttrend'
 def version   = "${env.BUILD_ID}"
 
+
 pipeline {   
    agent any
    tools {
@@ -98,5 +99,19 @@ stages {
             }
         }
       }
+
+    stage('Helm Chart'){
+      steps{
+        script{
+          def mavenPom = readMavenPom file: 'pom.xml'
+          dir('helm') {
+            withCredentials([usernamePassword(credentialsId: 'jfrog-cred', usernameVariable: 'username', passwordVariable: 'password')]) {
+            sh 'helm package ttrend --version ' + mavenPom.version
+            sh "helm push-artifactory tweet-cd-${mavenPom.version}.tgz https://vlx.jfrog.io/artifactory/vlx2-helm-local/ --username $username  --password $password"
+                }
+            }
+            }
+        }
+      }
     }
-  }
+}
