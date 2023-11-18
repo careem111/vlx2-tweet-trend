@@ -1,5 +1,5 @@
-def registry = 'https://vlx05.jfrog.io'
-def imageName = 'vlx05.jfrog.io/vlx2-docker-local/ttrend'
+def registry = 'https://vlx.jfrog.io'
+def imageName = 'vlx.jfrog.io/vlx2-docker-local/ttrend'
 def version   = "${env.BUILD_ID}"
 
 pipeline {   
