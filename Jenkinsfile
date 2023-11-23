@@ -113,5 +113,13 @@ stages {
             }
         }
       }
+
+    stage ('Invoke_tweet-trend-deploy-eks') {
+            steps {
+                build job: 'tweet-trend-deploy-eks'
+            }
+        }
+
+    
     }
 }
