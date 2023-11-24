@@ -55,7 +55,6 @@ stages {
                 def server = Artifactory.newServer url:registry+"/artifactory" ,  credentialsId:"artifact-cred"
                 def properties = "buildid=${env.BUILD_ID},commitid=${env.GIT_COMMIT}"; 
                 // BUILD_ID, GIT_COMMIT are default jenkins env
-                // BUILD_ID read from pom.xml
                 def uploadSpec = """{
                     "files": [
                       {
